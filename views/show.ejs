@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>Book Details</h2>
+    <p>Book ID: <%= book.id %> </p>
+    <div class="book">
+        <h3 class="title">Bookname: <%=book.title%></h3>
+        <h4>Author Name: <%=book.author%></h4>
+        <h4>Book Description: <%=book.description%></h4>
+        <h4>Published Year: <%=book.published_year%></h4>
+        <h4>Genre: <%=book.genre%></h4>
+    </div>
+</body>
+</html>

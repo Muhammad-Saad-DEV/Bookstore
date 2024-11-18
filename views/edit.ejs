@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book Info</title>
+</head>
+<body>
+    <h2>Edit Book Information</h2>
+    <p>Book ID: <%= book.id%></p><br>
+    <form method="post" action="/books/<%=book.id%>?_method=PATCH">
+        <p>Book Name:</p>
+        <textarea rows="5" cols="40"><%= book.title%></textarea><br>
+        <p>Author Name:</p>
+        <textarea rows="5" cols="40" name="author"><%= book.author%></textarea><br>
+        <p>Book Description:</p>
+        <textarea rows="5" cols="40" name="description"><%= book.description%></textarea><br>
+        <p>Published Year:</p>
+        <textarea rows="5" cols="40" name="pusblished_year"><%= book.pusblished_year%></textarea><br>
+        <p>Genre:</p>
+        <textarea rows="5" cols="40" name="genre"><%= book.genre%></textarea><br>
+        <button>Submit</button>
+    </form>
+</body>
+</html>
