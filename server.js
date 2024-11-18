@@ -4,6 +4,7 @@ const port = 3000;
 const path = require("path");                                   //requiring path for using multiple folders
 const { v4: uuidv4 } = require('uuid');
 const methodOverride = require("method-override")
+const {authschema} = require("./views/validation")
 
 
 app.set("view engine" , "ejs");                                 //setting view engine
@@ -22,7 +23,7 @@ let books = [
         title : "Harry Potter and the Half Blood Prince",
         author : "J.K Rowling",
         description : "Book Description",
-        published_year : "2003",
+        published_year : "2005",
         genre : "Fantasy, Thriller"
     },
     {
@@ -30,7 +31,7 @@ let books = [
         title : "The Lord of the Rings",
         author : "J.R.R. Tolkien",
         description : "Book Description",
-        published_year : "2003",
+        published_year : "1954",
         genre : "Fantasy, Thriller"
     }
 ];
@@ -66,12 +67,6 @@ app.patch("/books/:id", (req,res) =>{               //adding a new book
     let{id} = req.params;
     let newauth = req.body.author;
     let book = books.find((b) => id === b.id);
-    if (!book) {
-        return res.status(404).render("error", { 
-            errorCode: 404, 
-            errorMessage: "Book not found" 
-        });
-    }
     book.author = newauth;
     console.log(book);
     res.redirect("/books");
@@ -92,12 +87,13 @@ app.get("/books/:id/edit", (req, res) =>{           //to edit a listing
 app.delete("/books/:id", (req, res) =>{             //to delete listing
     let{id} = req.params;
     books = books.filter((b) => id !== b.id);
-    if (bookIndex === -1) {
+    if (books === -1) {
         return res.status(404).render("error", { 
             errorCode: 404, 
             errorMessage: "Book not found" 
         });
     }
+    
     res.redirect("/books");
 })
 
