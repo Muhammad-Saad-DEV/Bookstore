@@ -4,7 +4,7 @@ const port = 3000;
 const path = require("path");                                   //requiring path for using multiple folders
 const { v4: uuidv4 } = require('uuid');
 const methodOverride = require("method-override")
-const {authschema} = require("./views/validation")
+const {validate, authSchema} = require("./views/validation")
 
 
 app.set("view engine" , "ejs");                                 //setting view engine
@@ -44,7 +44,7 @@ app.get('/books/new', (req,res) =>{
     res.render("new.ejs")
 });
 
-app.post("/books", (req,res) =>{
+app.post("/books", validate(authSchema), (req,res) =>{
     let{title, author, description, published_year, genre} = req.body;
     let id = uuidv4();
     books.push({id, title, author, description, published_year, genre});
@@ -65,9 +65,14 @@ app.get("/books/:id", (req,res) =>{                 //showing a book through ID
 
 app.patch("/books/:id", (req,res) =>{               //adding a new book
     let{id} = req.params;
-    let newauth = req.body.author;
+    let {title, author, description, published_year, genre } = req.body;
     let book = books.find((b) => id === b.id);
-    book.author = newauth;
+    book.title = title;
+    book.author = author;
+    book.description = description;
+    book.published_year = published_year;
+    book.genre = genre;
+
     console.log(book);
     res.redirect("/books");
 })
@@ -76,8 +81,7 @@ app.get("/books/:id/edit", (req, res) =>{           //to edit a listing
     let{id} = req.params;
     let book = books.find((b) => id === b.id);
     if (!book) {
-        // Render the error page if the book is not found
-        return res.status(404).render("error", { 
+        return res.status(404).render("error", {    // Render the error page if the book is not found
             errorCode: 404, 
             errorMessage: "Book not found" 
         });}
